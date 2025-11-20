@@ -1,0 +1,356 @@
+:root {
+  /* Dark base */
+  --bg: #050608;
+  --bg-card: #111318;
+  --bg-panel: #181b22;
+
+  --border: #262a33;
+  --border-accent: #3a4250;
+
+  /* Text */
+  --text-main: #f4f1ee;      /* warm off-white */
+  --text-subtle: #cbc3bb;
+  --text-muted: #8e8680;
+
+  --primary: #4f46e5;        /* deep indigo */
+  --primary-bg: #312e81;     /* indigo surface */
+
+  --success: #0f766e;        /* deep teal */
+  --success-bg: #064e3b;     /* dark teal surface */
+
+  --danger: #b91c1c;         /* crimson */
+  --danger-bg: #7f1d1d;      /* dark red surface */
+
+  --warning: #d97706;        /* amber */
+  --warning-bg: #7c2d12;     /* deep burnt orange */
+
+  --radius-lg: 16px;
+  --radius-pill: 999px;
+
+  --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.7);
+
+  --transition-fast: 150ms ease-out;
+}
+
+/* --- Base Page --- */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #020617 0, #02040a 45%, #000 100%);
+  color: var(--text-main);
+  min-height: 100vh;
+}
+
+/* --- Layout --- */
+
+.app-shell {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 16px 32px;
+}
+
+@media (min-width: 768px) {
+  .app-shell {
+    padding: 32px 24px 40px;
+  }
+}
+
+/* --- Header --- */
+
+.app-header {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .app-header {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.brand-text-only h1 h4{
+  margin: 0;
+  font-size: 22px;
+  color: var(--text-main);
+}
+
+.brand-text-only p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--text-subtle);
+}
+
+/* --- Pills (status chips) --- */
+
+.header-status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.pill {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 11px;
+  border: 1px solid var(--border);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  background: #090b10;
+}
+
+.pill::before {
+  content: "";
+  width: 7px;
+  height: 7px;
+  border-radius: 100%;
+  background: currentColor;
+}
+
+.pill--ok {
+  color: var(--success);
+  border-color: rgba(15, 118, 110, 0.55);
+}
+
+.pill--active {
+  color: var(--primary);
+  border-color: rgba(79, 70, 229, 0.55);
+}
+
+.pill--alert {
+  color: var(--warning);
+  border-color: rgba(217, 119, 6, 0.6);
+}
+
+.pill--muted {
+  color: var(--text-muted);
+  border-color: var(--border);
+}
+
+/* --- Toast / message --- */
+
+.toast {
+  margin-bottom: 20px;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #10121a;
+  border: 1px solid var(--border);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.75);
+}
+
+.toast p {
+  margin: 0;
+  font-size: 13px;
+}
+
+/* --- Layout: cards column --- */
+
+.layout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+/* --- Cards --- */
+
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  box-shadow: var(--shadow-soft);
+}
+
+.card--accent {
+  border-color: var(--border-accent);
+}
+
+.card--balanced {
+  min-height: 190px;
+}
+
+.card h2 {
+  margin: 0 0 6px;
+  font-size: 16px;
+}
+
+.card-subtitle {
+  margin: 0 0 12px;
+  font-size: 13px;
+  color: var(--text-subtle);
+}
+
+/* --- Card body --- */
+
+.card-body {
+  background: var(--bg-panel);
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid var(--border);
+}
+
+.card-body--stack {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-body--siren {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* --- Status --- */
+
+.status-line {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  margin: 0 0 12px;
+}
+
+.status-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+}
+
+.status-label {
+  color: var(--text-muted);
+}
+
+.status-value {
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 12px;
+  border: 1px solid transparent;
+}
+
+.status-value--on {
+  color: #ecfdf5;
+  border-color: rgba(16, 185, 129, 0.5);
+  background: rgba(6, 95, 70, 0.9);
+}
+
+.status-value--off {
+  color: var(--text-muted);
+  border-color: var(--border);
+  background: rgba(15, 23, 42, 0.6);
+}
+
+.status-value--alert {
+  color: #fef3c7;
+  border-color: rgba(217, 119, 6, 0.6);
+  background: rgba(120, 53, 15, 0.85);
+}
+
+/* --- Buttons --- */
+
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.btn {
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background-color var(--transition-fast),
+              border-color var(--transition-fast),
+              transform var(--transition-fast),
+              box-shadow var(--transition-fast),
+              opacity 120ms ease-out;
+}
+
+/* Primary (record) */
+.btn-primary {
+  background: var(--primary-bg);
+  color: #e0e7ff;
+  border-color: rgba(129, 140, 248, 0.7);
+}
+
+/* Success (start listening) */
+.btn-success {
+  background: var(--success-bg);
+  color: #a7f3d0;
+  border-color: rgba(16, 185, 129, 0.7);
+}
+
+/* Secondary (stop listening) */
+.btn-secondary {
+  background: #1f2933;
+  color: var(--text-main);
+  border-color: var(--border);
+}
+
+/* Danger (stop siren) */
+.btn-danger {
+  background: var(--danger-bg);
+  color: #fee2e2;
+  border-color: rgba(248, 113, 113, 0.8);
+}
+
+/* Big siren button */
+.btn-siren-big {
+  width: 100%;
+  padding: 18px 20px;
+  font-size: 18px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Hover / active / disabled */
+.btn:hover:not(:disabled) {
+  transform: translateY(-1px);
+  box-shadow: 0 14px 28px rgba(0, 0, 0, 0.75);
+  filter: brightness(1.05);
+}
+
+.btn:active:not(:disabled) {
+  transform: translateY(0);
+  box-shadow: 0 8px 18px rgba(0, 0, 0, 0.85);
+}
+
+.btn:disabled {
+  opacity: 0.45;
+  cursor: default;
+  box-shadow: none;
+}
+
+/* --- Forms inside rows --- */
+
+.button-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.siren-form {
+  margin-top: 4px;
+}

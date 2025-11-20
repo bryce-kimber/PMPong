@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>On-Call Ringtone Monitor</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="app-header">
+      <div class="brand-text-only">
+        <h1>On-Call Monitor</h1>
+        <h4>Listens for your ringtone and triggers an alarm.</h4>
+      </div>
+
+      <div class="header-status">
+        <span class="pill {{ 'pill--ok' if reference_loaded else 'pill--muted' }}">
+          {% if reference_loaded %}Reference saved{% else %}No reference yet{% endif %}
+        </span>
+        <span class="pill {{ 'pill--active' if detector_running else 'pill--muted' }}">
+          {% if detector_running %}Listening{% else %}Idle{% endif %}
+        </span>
+        <span class="pill {{ 'pill--alert' if siren_active else 'pill--muted' }}">
+          {% if siren_active %}Siren active{% else %}Siren idle{% endif %}
+        </span>
+      </div>
+    </header>
+
+    {% if message %}
+      <div class="toast">
+        <p>{{ message }}</p>
+      </div>
+    {% endif %}
+
+    <main class="layout">
+      <!-- Card 1: Reference fingerprint -->
+      <section class="card card--balanced">
+        <h2>1. Ringtone fingerprint</h2>
+        <p class="card-subtitle">
+          Hold your phone near the mic and tap record. The app will listen for
+          {{ ref_seconds|int }} seconds and build a fingerprint. Make sure your ringtone is playing when you press record.
+        </p>
+
+        <div class="card-body">
+          <p class="status-line">
+            {% if reference_loaded %}
+              <span class="dot dot--ok"></span>
+              Fingerprint is saved and ready.
+            {% else %}
+              <span class="dot dot--muted"></span>
+              No fingerprint yet — record one to get started.
+            {% endif %}
+          </p>
+
+          <form action="{{ url_for('record_reference_route') }}" method="post">
+            <button class="btn btn-primary" type="submit">
+              {% if reference_loaded %}Re-record fingerprint{% else %}Record fingerprint{% endif %}
+            </button>
+          </form>
+        </div>
+      </section>
+
+      <!-- Card 2: Detection controls -->
+      <section class="card card--balanced">
+        <h2>2. Detection</h2>
+        <p class="card-subtitle">
+          Once started, the app continuously listens in the background and
+          triggers the siren when your ringtone is detected.
+        </p>
+
+        <div class="card-body card-body--stack">
+          <div class="status-row">
+            <span class="status-label"></span>
+            <span class="status-value {{ 'status-value--on' if detector_running else 'status-value--off' }}">
+              {% if detector_running %}Listening{% else %}Stopped{% endif %}
+            </span>
+          </div>
+
+          <div class="button-row">
+            <form action="{{ url_for('start_detector') }}" method="post">
+              <button
+                class="btn btn-success"
+                type="submit"
+                {% if not reference_loaded or detector_running %}disabled{% endif %}
+              >
+                Start listening
+              </button>
+            </form>
+
+            <form action="{{ url_for('stop_detector') }}" method="post">
+              <button
+                class="btn btn-secondary"
+                type="submit"
+                {% if not detector_running %}disabled{% endif %}
+              >
+                Stop listening
+              </button>
+            </form>
+          </div>
+        </div>
+      </section>
+
+      <!-- Card 3: Siren controls -->
+      <section class="card card--accent card--siren">
+        <h2>Siren control</h2>
+        <p class="card-subtitle">
+          Big emergency stop button for when you’re waking up to a call.
+        </p>
+
+        <div class="card-body card-body--siren">
+          <div class="status-row status-row--siren">
+            <span class="status-label"></span>
+            <span class="status-value {{ 'status-value--alert' if siren_active else 'status-value--off' }}">
+              {% if siren_active %}Active{% else %}Idle{% endif %}
+            </span>
+          </div>
+
+          <form action="{{ url_for('stop_siren') }}" method="post" class="siren-form">
+            <button
+              class="btn btn-danger btn-siren-big"
+              type="submit"
+            >
+              Stop siren
+            </button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>
